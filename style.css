@@ -17,6 +17,7 @@ col {
 
 .header-row {
     border-bottom: 2px solid #00000055;
+    height: 57px;
 }
 
 .title-row {
@@ -24,5 +25,5 @@ col {
 }
 
 #wrapper {
-    width: 500px;
+    width: 666px;
 }

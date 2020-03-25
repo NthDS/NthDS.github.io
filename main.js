@@ -71,9 +71,9 @@ let states = {
 function changeState(){
     let stateSelect = document.querySelector("#state-select");
     selectedState = data.find(d => d.state === stateSelect.value);
-    document.querySelector("#state").innerHTML = states[stateSelect.value];
+    document.querySelectorAll(".state").forEach(e => e.innerHTML = states[stateSelect.value]);
     document.querySelector("#total").innerHTML = (selectedState.positive + selectedState.negative) || "";
-    document.querySelector("#positive").innerHTML = (selectedState.positive) || "";
+    document.querySelectorAll("#positive").forEach(e => e.innerHTML = (selectedState.positive) || "");
     document.querySelector("#negative").innerHTML = (selectedState.negative) || "";
     document.querySelector("#rate").innerHTML = selectedState.positive !== undefined && selectedState.negative !== undefined
             ? ((selectedState.positive * 100) / (selectedState.positive + selectedState.negative)).toFixed(2) + "%"

@@ -17,25 +17,39 @@
         <div id="tables">
             <table id="testing">
                 <colgroup>
-                    <col><col><col><col><col><col><col>
+                    <col><col><col><col>
                 </colgroup>
                 <tr class="title-row">
-                    <th id="state" colspan="7"></th>
+                    <th colspan="4"><span class="state"></span> Tests</th>
                 </tr>
                 <tr class="header-row">
                     <th>Total Tested</th>
                     <th>Positive</th>
                     <th>Negative</th>
                     <th>Tested Positive Rate</th>
-                    <th>Pending</th>
-                    <th>Hospitalized</th>
-                    <th>Deaths</th>
                 </tr>
                 <tr>
                     <td id="total"></td>
                     <td id="positive"></td>
                     <td id="negative"></td>
                     <td id="rate"></td>
+                </tr>
+            </table>
+            <table id="cases">
+                <colgroup>
+                    <col><col><col><col>
+                </colgroup>
+                <tr class="title-row">
+                    <th colspan="4"><span class="state"></span> Cases</th>
+                </tr>
+                <tr class="header-row">
+                    <th>Total Cases</th>
+                    <th>Pending </th>
+                    <th>Hospitalized</th>
+                    <th>Deaths</th>
+                </tr>
+                <tr>
+                    <td id="positive"></td>
                     <td id="pending"></td>
                     <td id="hospitalized"></td>
                     <td id="deaths"></td>
