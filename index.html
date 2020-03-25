@@ -1,0 +1,50 @@
+<meta charset="UTF-8">
+<head>
+	<title>Covid-19</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script type="text/javascript" src="main.js"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="select-wrapper">
+            Select state to view:
+            <select id="state-select" onchange="changeState()">
+                <option value="US">Whole US</option>
+            </select>
+            <button id="refresh" onclick="getData()">Refresh data</button>
+        </div>
+        <div id="tables">
+            <table id="testing">
+                <colgroup>
+                    <col><col><col><col><col><col><col>
+                </colgroup>
+                <tr class="title-row">
+                    <th id="state" colspan="7"></th>
+                </tr>
+                <tr class="header-row">
+                    <th>Total Tested</th>
+                    <th>Positive</th>
+                    <th>Negative</th>
+                    <th>Tested Positive Rate</th>
+                    <th>Pending</th>
+                    <th>Hospitalized</th>
+                    <th>Deaths</th>
+                </tr>
+                <tr>
+                    <td id="total"></td>
+                    <td id="positive"></td>
+                    <td id="negative"></td>
+                    <td id="rate"></td>
+                    <td id="pending"></td>
+                    <td id="hospitalized"></td>
+                    <td id="deaths"></td>
+                </tr>
+            </table>
+        </div>
+        <button id="log-button" onclick="switchScale()">Logarithmic Scale</button>
+        <div id="graph-wrapper">
+            <canvas></canvas>
+        </div>
+    </div>
+</body>

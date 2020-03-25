@@ -1,0 +1,28 @@
+table {
+    margin-top: 10px;
+    display: inline-block;
+    border-collapse: collapse;
+    border: 1px solid #00000055;
+}
+
+td, th {
+    border: 1px solid #00000055;
+    padding: 1px 3px;
+    text-align: center;
+}
+
+col {
+    width: calc(100% / 7);
+}
+
+.header-row {
+    border-bottom: 2px solid #00000055;
+}
+
+.title-row {
+    height: 30px;
+}
+
+#wrapper {
+    width: 500px;
+}
