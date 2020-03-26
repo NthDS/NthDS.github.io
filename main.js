@@ -72,14 +72,14 @@ function changeState(){
     let stateSelect = document.querySelector("#state-select");
     selectedState = data.find(d => d.state === stateSelect.value);
     document.querySelectorAll(".state").forEach(e => e.innerHTML = formatNumber(states[stateSelect.value]));
-    document.querySelector("#total").innerHTML = formatNumber(selectedState.positive + selectedState.negative) || "";
-    document.querySelectorAll("#positive").forEach(e => e.innerHTML = formatNumber(selectedState.positive) || "");
-    document.querySelector("#negative").innerHTML = formatNumber(selectedState.negative) || "";
+    document.querySelector("#total").innerHTML = formatNumber(selectedState.positive + selectedState.negative);
+    document.querySelectorAll("#positive").forEach(e => e.innerHTML = formatNumber(selectedState.positive));
+    document.querySelector("#negative").innerHTML = formatNumber(selectedState.negative);
     document.querySelector("#rate").innerHTML = selectedState.positive !== undefined && selectedState.negative !== undefined
             ? ((selectedState.positive * 100) / (selectedState.positive + selectedState.negative)).toFixed(2) + "%"
             : "";
-    document.querySelector("#hospitalized").innerHTML = formatNumber(selectedState.hospitalized) || "";
-    document.querySelector("#deaths").innerHTML = formatNumber(selectedState.death) || "";
+    document.querySelector("#hospitalized").innerHTML = formatNumber(selectedState.hospitalized);
+    document.querySelector("#deaths").innerHTML = formatNumber(selectedState.death);
     getDaily(stateSelect.value);
 }
 
@@ -201,7 +201,7 @@ function switchScale(){
 }
 
 function formatNumber(x){
-    return x.toLocaleString();
+    return x ? x.toLocaleString() : "";
 }
 
 getData();
