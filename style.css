@@ -1,8 +1,10 @@
 table {
     margin-top: 10px;
+    margin-bottom: 10px;
     display: inline-block;
     border-collapse: collapse;
     border: 1px solid #00000055;
+    width: 329px;
 }
 
 td, th {
@@ -12,12 +14,12 @@ td, th {
 }
 
 col {
-    width: calc(100% / 7);
+    width: 1%
 }
 
 .header-row {
     border-bottom: 2px solid #00000055;
-    height: 57px;
+    height: 58px;
 }
 
 .title-row {

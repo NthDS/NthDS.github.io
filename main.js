@@ -71,16 +71,15 @@ let states = {
 function changeState(){
     let stateSelect = document.querySelector("#state-select");
     selectedState = data.find(d => d.state === stateSelect.value);
-    document.querySelectorAll(".state").forEach(e => e.innerHTML = states[stateSelect.value]);
-    document.querySelector("#total").innerHTML = (selectedState.positive + selectedState.negative) || "";
-    document.querySelectorAll("#positive").forEach(e => e.innerHTML = (selectedState.positive) || "");
-    document.querySelector("#negative").innerHTML = (selectedState.negative) || "";
+    document.querySelectorAll(".state").forEach(e => e.innerHTML = formatNumber(states[stateSelect.value]));
+    document.querySelector("#total").innerHTML = formatNumber(selectedState.positive + selectedState.negative) || "";
+    document.querySelectorAll("#positive").forEach(e => e.innerHTML = formatNumber(selectedState.positive) || "");
+    document.querySelector("#negative").innerHTML = formatNumber(selectedState.negative) || "";
     document.querySelector("#rate").innerHTML = selectedState.positive !== undefined && selectedState.negative !== undefined
             ? ((selectedState.positive * 100) / (selectedState.positive + selectedState.negative)).toFixed(2) + "%"
             : "";
-    document.querySelector("#pending").innerHTML = (selectedState.pending) || "";
-    document.querySelector("#hospitalized").innerHTML = (selectedState.hospitalized) || "";
-    document.querySelector("#deaths").innerHTML = (selectedState.death) || "";
+    document.querySelector("#hospitalized").innerHTML = formatNumber(selectedState.hospitalized) || "";
+    document.querySelector("#deaths").innerHTML = formatNumber(selectedState.death) || "";
     getDaily(stateSelect.value);
 }
 
@@ -95,7 +94,7 @@ function getData(){
 }
 
 function getWholeUSValue(){
-    let props = ["death", "negative", "positive", "total", "pending", "hospitalized"];
+    let props = ["death", "negative", "positive", "total", "hospitalized"];
     data.unshift({"state": "US"});
     for (let i = 0; i < props.length; i++){
         let sum = 0;
@@ -199,6 +198,10 @@ function switchScale(){
     console.log(logarithmic)
     document.querySelector("#log-button").innerHTML = logarithmic ? "Linear Scale" : "Logarithmic Scale";
     getDaily(selectedState.state);
+}
+
+function formatNumber(x){
+    return x.toLocaleString();
 }
 
 getData();
