@@ -1,0 +1,64 @@
+<meta charset="UTF-8">
+<head>
+    <title>Covid-19</title>
+    <style>table{margin-top:10px;display:inline-block;border-collapse:collapse;border:1px solid #00000055;width:329px}td,th{border:1px solid #00000055;padding:1px 3px;text-align:center}col{width:25%}.header-row{border-bottom:2px solid #00000055;height:58px}.title-row{height:30px}#wrapper{width:666px}</style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script type="text/javascript">"use strict";let data=null,selectedState=null,dailyData={},logarithmic=!1,states={AL:"Alabama",AK:"Alaska",AS:"American Samoa",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District Of Columbia",FM:"Federated States Of Micronesia",FL:"Florida",GA:"Georgia",GU:"Guam",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MH:"Marshall Islands",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",MP:"Northern Mariana Islands",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PW:"Palau",PA:"Pennsylvania",PR:"Puerto Rico",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",US:"Whole US",UT:"Utah",VT:"Vermont",VI:"Virgin Islands",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};function changeState(){let e=document.querySelector("#state-select");selectedState=data.find(t=>t.state===e.value),document.querySelectorAll(".state").forEach(t=>t.innerHTML=states[e.value]),document.querySelector("#total").innerHTML=selectedState.positive+selectedState.negative||"",document.querySelectorAll("#positive").forEach(e=>e.innerHTML=selectedState.positive||""),document.querySelector("#negative").innerHTML=selectedState.negative||"",document.querySelector("#rate").innerHTML=void 0!==selectedState.positive&&void 0!==selectedState.negative?(100*selectedState.positive/(selectedState.positive+selectedState.negative)).toFixed(2)+"%":"",document.querySelector("#pending").innerHTML=selectedState.pending||"",document.querySelector("#hospitalized").innerHTML=selectedState.hospitalized||"",document.querySelector("#deaths").innerHTML=selectedState.death||"",getDaily(e.value)}function getData(){fetch("https://covidtracking.com/api/states").then(e=>{e.json().then(e=>{data=e,getWholeUSValue(),populateDropdown()})})}function getWholeUSValue(){let e=["death","negative","positive","total","pending","hospitalized"];data.unshift({state:"US"});for(let t=0;t<e.length;t++){let a=0;for(let i=0;i<data.length;i++)data[i][e[t]]&&(a+=data[i][e[t]]);data[0][e[t]]=a}}function populateDropdown(){let e=document.querySelector("#state-select");for(;e.firstChild;)e.removeChild(e.lastChild);for(let t=0;t<data.length;t++){let a=document.createElement("option");a.value=data[t].state,a.innerHTML=states[data[t].state],e.append(a)}selectedState||(selectedState="US",changeState())}function getDaily(e){if(dailyData[e])return drawDaily(e);let t=`https://covidtracking.com/api/states/daily?state=${e}`;"US"==e&&(t="https://covidtracking.com/api/us/daily"),fetch(t).then(t=>{t.json().then(t=>{dailyData[e]=t.reverse(),drawDaily(e)})})}function drawDaily(e){let t=dailyData[e];console.log(t);let a=document.querySelector("#graph-wrapper");for(;a.firstChild;)a.removeChild(a.lastChild);let i=document.createElement("canvas");a.append(i);let o=i.getContext("2d");new Chart(o,{type:"line",data:{labels:t.map(e=>e.date.toString().replace(/(....)(..)(..)/,"$2/$3/$1")),datasets:[{label:"Tested",borderColor:"rgb(0, 0, 0)",data:t.map(e=>e.positive+e.negative)},{label:"Cases",borderColor:"rgb(0, 0, 255)",data:t.map(e=>e.positive)},{label:"Hospitalized",borderColor:"rgb(0, 255, 0)",data:t.map(e=>e.hospitalized)},{label:"Deaths",borderColor:"rgb(255, 0, 0)",data:t.map(e=>e.death)}]},options:{scales:{yAxes:[logarithmic?{type:"logarithmic",position:"left",ticks:{callback:function(e,t,a){return"1"!=e.toString()[0]?"":e.toString()}}}:{}]}}})}function switchScale(){logarithmic=!logarithmic,console.log(logarithmic),document.querySelector("#log-button").innerHTML=logarithmic?"Linear Scale":"Logarithmic Scale",getDaily(selectedState.state)}getData();</script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="select-wrapper">
+            Select state to view:
+            <select id="state-select" onchange="changeState()">
+                <option value="US">Whole US</option>
+            </select>
+            <button id="refresh" onclick="getData()">Refresh data</button>
+        </div>
+        <div id="tables">
+            <table id="testing">
+                <colgroup>
+                    <col><col><col><col>
+                </colgroup>
+                <tr class="title-row">
+                    <th colspan="4"><span class="state"></span> Tests</th>
+                </tr>
+                <tr class="header-row">
+                    <th>Total Tested</th>
+                    <th>Positive</th>
+                    <th>Negative</th>
+                    <th>Tested Positive Rate</th>
+                </tr>
+                <tr>
+                    <td id="total"></td>
+                    <td id="positive"></td>
+                    <td id="negative"></td>
+                    <td id="rate"></td>
+                </tr>
+            </table>
+            <table id="cases">
+                <colgroup>
+                    <col><col><col><col>
+                </colgroup>
+                <tr class="title-row">
+                    <th colspan="4"><span class="state"></span> Cases</th>
+                </tr>
+                <tr class="header-row">
+                    <th>Total Cases</th>
+                    <th>Pending </th>
+                    <th>Hospitalized</th>
+                    <th>Deaths</th>
+                </tr>
+                <tr>
+                    <td id="positive"></td>
+                    <td id="pending"></td>
+                    <td id="hospitalized"></td>
+                    <td id="deaths"></td>
+                </tr>
+            </table>
+        </div>
+        <button id="log-button" onclick="switchScale()">Logarithmic Scale</button>
+        <div id="graph-wrapper">
+            <canvas></canvas>
+        </div>
+    </div>
+</body>

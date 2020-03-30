@@ -197,7 +197,7 @@ function drawDaily(state){
 function switchScale(){
     logarithmic = !logarithmic;
     console.log(logarithmic)
-    document.querySelector("#log-button").innerHTML = logarithmic ? "Linear Scale" : "Logarithmic Scale";
+    document.querySelector("#log-button").innerHTML = logarithmic ? "Change to Linear Scale" : "Change to Logarithmic Scale";
     getDaily(selectedState.state);
 }
 
