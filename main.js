@@ -119,9 +119,11 @@ function populateDropdown(){
         stateSelect.append(element);
     }
     if (!selectedState){
-        selectedState = "US";
-        changeState();
+        selectedState = {"state": "US"};
+    } else {
+        stateSelect.value = selectedState.state;
     }
+    changeState();
 }
 
 function getDaily(state){
@@ -142,7 +144,6 @@ function getDaily(state){
 
 function drawDaily(state){
     let daily = dailyData[state];
-    console.log(daily);
     let graphWrapper = document.querySelector("#graph-wrapper");
     while (graphWrapper.firstChild){
         graphWrapper.removeChild(graphWrapper.lastChild);
