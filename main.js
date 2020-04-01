@@ -178,6 +178,13 @@ function drawDaily(state){
         },
 
         options: {
+            title: {
+                display: true,
+                text: 'Click legend to filter data',
+                padding: 0,
+                fontStyle: 'initial',
+            },
+
             scales: {
                 yAxes: [logarithmic ? ({
                     type: 'logarithmic',
