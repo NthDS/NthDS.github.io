@@ -22,6 +22,10 @@ col {
     height: 58px;
 }
 
+.data-row {
+    height: 40px;
+}
+
 .title-row {
     height: 30px;
     background-color: #00aae7;
@@ -29,4 +33,22 @@ col {
 
 #wrapper {
     width: 640px;
+}
+
+.good-diff, .bad-diff {
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+td .good-diff, td .bad-diff {
+    padding: 0 5px;
+}
+
+.good-diff {
+    background-color: green;
+}
+
+.bad-diff {
+    background-color: red;
 }

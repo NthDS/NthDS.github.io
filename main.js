@@ -75,9 +75,15 @@ function changeState(){
     document.querySelector("#total").innerHTML = formatNumber(selectedState.positive + selectedState.negative);
     document.querySelectorAll("#positive").forEach(e => e.innerHTML = formatNumber(selectedState.positive));
     document.querySelector("#negative").innerHTML = formatNumber(selectedState.negative);
-    document.querySelector("#rate").innerHTML = selectedState.positive !== undefined && selectedState.negative !== undefined
-            ? ((selectedState.positive * 100) / (selectedState.positive + selectedState.negative)).toFixed(2) + "%"
-            : "";
+    let national = data.find(d => d.state === "US");
+    let nationalRate = ((national.positive * 100) / (national.positive + national.negative));
+    let stateRate = selectedState.positive !== undefined && selectedState.negative !== undefined
+            ? ((selectedState.positive * 100) / (selectedState.positive + selectedState.negative))
+            : -1;
+            console.log(stateRate, nationalRate, stateRate > nationalRate)
+    document.querySelector("#rate").innerHTML = stateRate >= 0 ? `${stateRate.toFixed(2)}%` + (nationalRate && nationalRate != stateRate ? `<br><span class="${stateRate > nationalRate ? 'bad' : 'good'}-diff">${stateRate > nationalRate ? "+" : ""}${(stateRate - nationalRate).toFixed(2)}%</span>` : "") : "";
+    document.querySelector("#rate-diff").className = stateRate > nationalRate ? "bad-diff" : "good-diff";
+    document.querySelector("#rate-diff").style.display = nationalRate && nationalRate != stateRate ? "block" : "none";
     document.querySelector("#hospitalized").innerHTML = formatNumber(selectedState.hospitalized);
     document.querySelector("#deaths").innerHTML = formatNumber(selectedState.death);
     getDaily(stateSelect.value);
