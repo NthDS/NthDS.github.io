@@ -4,7 +4,7 @@ table {
     display: inline-block;
     border-collapse: collapse;
     border: 1px solid #00000055;
-    width: 329px;
+    width: 315px;
 }
 
 td, th {
@@ -28,5 +28,5 @@ col {
 }
 
 #wrapper {
-    width: 666px;
+    width: 640px;
 }
