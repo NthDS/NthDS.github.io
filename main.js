@@ -188,7 +188,8 @@ function drawDaily(state){
                 display: true,
                 text: 'Click legend to filter data',
                 padding: 0,
-                fontStyle: 'initial',
+                fontSize: 13,
+                fontColor: "#000",
             },
 
             scales: {
