@@ -206,7 +206,6 @@ function drawDaily(state){
             },
         },
     });
-    window.chart = chart;
 }
 
 function switchScale(){
