@@ -6,81 +6,81 @@ let dailyData = {};
 let logarithmic = false;
 
 let states = {
-    "AL": "Alabama",
-    "AK": "Alaska",
-    "AS": "American Samoa",
-    "AZ": "Arizona",
-    "AR": "Arkansas",
-    "CA": "California",
-    "CO": "Colorado",
-    "CT": "Connecticut",
-    "DE": "Delaware",
-    "DC": "District Of Columbia",
-    "FM": "Federated States Of Micronesia",
-    "FL": "Florida",
-    "GA": "Georgia",
-    "GU": "Guam",
-    "HI": "Hawaii",
-    "ID": "Idaho",
-    "IL": "Illinois",
-    "IN": "Indiana",
-    "IA": "Iowa",
-    "KS": "Kansas",
-    "KY": "Kentucky",
-    "LA": "Louisiana",
-    "ME": "Maine",
-    "MH": "Marshall Islands",
-    "MD": "Maryland",
-    "MA": "Massachusetts",
-    "MI": "Michigan",
-    "MN": "Minnesota",
-    "MS": "Mississippi",
-    "MO": "Missouri",
-    "MT": "Montana",
-    "NE": "Nebraska",
-    "NV": "Nevada",
-    "NH": "New Hampshire",
-    "NJ": "New Jersey",
-    "NM": "New Mexico",
-    "NY": "New York",
-    "NC": "North Carolina",
-    "ND": "North Dakota",
-    "MP": "Northern Mariana Islands",
-    "OH": "Ohio",
-    "OK": "Oklahoma",
-    "OR": "Oregon",
-    "PW": "Palau",
-    "PA": "Pennsylvania",
-    "PR": "Puerto Rico",
-    "RI": "Rhode Island",
-    "SC": "South Carolina",
-    "SD": "South Dakota",
-    "TN": "Tennessee",
-    "TX": "Texas",
-    "US": "Whole US",
-    "UT": "Utah",
-    "VT": "Vermont",
-    "VI": "Virgin Islands",
-    "VA": "Virginia",
-    "WA": "Washington",
-    "WV": "West Virginia",
-    "WI": "Wisconsin",
-    "WY": "Wyoming"
+    "AL": ["Alabama", 4903185],
+    "AK": ["Alaska", 731545],
+    "AS": ["American Samoa", 55641],
+    "AZ": ["Arizona", 7278717],
+    "AR": ["Arkansas", 3017825],
+    "CA": ["California", 39512223],
+    "CO": ["Colorado", 5758736],
+    "CT": ["Connecticut", 3565287],
+    "DE": ["Delaware", 973764],
+    "DC": ["District Of Columbia", 705749],
+    "FM": ["Federated States Of Micronesia", 105544],
+    "FL": ["Florida", 21477737],
+    "GA": ["Georgia", 10617423],
+    "GU": ["Guam", 165718],
+    "HI": ["Hawaii", 1415872],
+    "ID": ["Idaho", 1787065],
+    "IL": ["Illinois", 12671821],
+    "IN": ["Indiana", 6732219],
+    "IA": ["Iowa", 3155070],
+    "KS": ["Kansas", 2913314],
+    "KY": ["Kentucky", 4467673],
+    "LA": ["Louisiana", 4648794],
+    "ME": ["Maine", 1344212],
+    "MH": ["Marshall Islands", 53127],
+    "MD": ["Maryland", 6045680],
+    "MA": ["Massachusetts", 6949503],
+    "MI": ["Michigan", 9986857],
+    "MN": ["Minnesota", 5639632],
+    "MS": ["Mississippi", 2976149],
+    "MO": ["Missouri", 6137428],
+    "MT": ["Montana", 1068778],
+    "NE": ["Nebraska", 1934408],
+    "NV": ["Nevada", 3080156],
+    "NH": ["New Hampshire", 1359711],
+    "NJ": ["New Jersey", 8882190],
+    "NM": ["New Mexico", 2096829],
+    "NY": ["New York", 19453561],
+    "NC": ["North Carolina", 10488084],
+    "ND": ["North Dakota", 762062],
+    "MP": ["Northern Mariana Islands", 55194],
+    "OH": ["Ohio", 11689100],
+    "OK": ["Oklahoma", 3956971],
+    "OR": ["Oregon", 4217737],
+    "PW": ["Palau", 21729],
+    "PA": ["Pennsylvania", 12801989],
+    "PR": ["Puerto Rico", 3193694],
+    "RI": ["Rhode Island", 1059361],
+    "SC": ["South Carolina", 5148714],
+    "SD": ["South Dakota", 884659],
+    "TN": ["Tennessee", 6833174],
+    "TX": ["Texas", 28995881],
+    "US": ["Whole US", 328239523],
+    "UT": ["Utah", 3205958],
+    "VT": ["Vermont", 623989],
+    "VI": ["Virgin Islands", 104914],
+    "VA": ["Virginia", 8535519],
+    "WA": ["Washington", 7614893],
+    "WV": ["West Virginia", 1792147],
+    "WI": ["Wisconsin", 5822434],
+    "WY": ["Wyoming", 578759],
 }
 
 function changeState(){
     let stateSelect = document.querySelector("#state-select");
     selectedState = data.find(d => d.state === stateSelect.value);
-    document.querySelectorAll(".state").forEach(e => e.innerHTML = formatNumber(states[stateSelect.value]));
+    document.querySelectorAll(".state").forEach(e => e.innerHTML = formatNumber(states[stateSelect.value][0]));
     document.querySelector("#total").innerHTML = formatNumber(selectedState.positive + selectedState.negative);
     document.querySelectorAll("#positive").forEach(e => e.innerHTML = formatNumber(selectedState.positive));
     document.querySelector("#negative").innerHTML = formatNumber(selectedState.negative);
+    document.querySelector("#per-capita").innerHTML = formatNumber(Math.floor((selectedState.positive + selectedState.negative) / states[stateSelect.value][1] * 1000000));
     let national = data.find(d => d.state === "US");
     let nationalRate = ((national.positive * 100) / (national.positive + national.negative));
     let stateRate = selectedState.positive !== undefined && selectedState.negative !== undefined
             ? ((selectedState.positive * 100) / (selectedState.positive + selectedState.negative))
             : -1;
-            console.log(stateRate, nationalRate, stateRate > nationalRate)
     document.querySelector("#rate").innerHTML = stateRate >= 0 ? `${stateRate.toFixed(2)}%` + (nationalRate && nationalRate != stateRate ? `<br><span class="${stateRate > nationalRate ? 'bad' : 'good'}-diff">${stateRate > nationalRate ? "+" : ""}${(stateRate - nationalRate).toFixed(2)}%</span>` : "") : "";
     document.querySelector("#rate-diff").className = stateRate > nationalRate ? "bad-diff" : "good-diff";
     document.querySelector("#rate-diff").style.display = nationalRate && nationalRate != stateRate ? "block" : "none";
@@ -121,7 +121,7 @@ function populateDropdown(){
     for (let i = 0; i < data.length; i++){
         let element = document.createElement("option");
         element.value = data[i].state;
-        element.innerHTML = states[data[i].state];
+        element.innerHTML = states[data[i].state][0];
         stateSelect.append(element);
     }
     if (!selectedState){
@@ -142,7 +142,7 @@ function getDaily(state){
     }
     fetch(url).then(info => {
         info.json().then(value => {
-            dailyData[state] = value.reverse();
+            dailyData[state] = value.reverse().filter(d => d.state == state || d.state === undefined);
             drawDaily(state);
         });
     });
@@ -186,7 +186,7 @@ function drawDaily(state){
         options: {
             title: {
                 display: true,
-                text: 'Click legend to filter data',
+                text: 'Click legend to filter data for ' + states[state][0],
                 padding: 0,
                 fontSize: 13,
                 fontColor: "#000",
@@ -206,6 +206,7 @@ function drawDaily(state){
             },
         },
     });
+    window.chart = chart;
 }
 
 function switchScale(){

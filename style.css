@@ -4,7 +4,14 @@ table {
     display: inline-block;
     border-collapse: collapse;
     border: 1px solid #00000055;
-    width: 315px;
+}
+
+#testing {
+    width: 355px;
+}
+
+#cases {
+    width: 275px;
 }
 
 td, th {
